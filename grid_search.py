@@ -22,30 +22,28 @@ import predictor
 import prepare_data
 import model_builder
 
-print ("Grid searching!")
+if __name__ == "__main__":
+    print ("Grid searching!")
 
-#get home path
-home = expanduser("~")
+    #get home path
+    root_dir = os.path.dirname(os.path.realpath(__file__))
 
-x, y, sc_X, sc_Y = prepare_data.prepare("results.csv")
+    x, y, sc_X, sc_Y = prepare_data.training("results.csv")
 
-# create model
-model = KerasRegressor(build_fn=model_builder.create_model, verbose=0)
-# grid search epochs, batch size and optimizer
-optimizers = ['rmsprop', 'adam']
-init = ['glorot_uniform', 'normal', 'uniform']
-epochs = [5, 10, 20]
-batches = [5, 10, 20]
-param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches, init=init)
-grid = GridSearchCV(estimator=model, param_grid=param_grid)
-grid_result = grid.fit(x, y)
-# summarize results
-print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-means = grid_result.cv_results_['mean_test_score']
-stds = grid_result.cv_results_['std_test_score']
-params = grid_result.cv_results_['params']
-for mean, stdev, param in zip(means, stds, params):
-    print("%f (%f) with: %r" % (mean, stdev, param))
-
-
-    
+    # create model
+    model = KerasRegressor(build_fn=model_builder.create_model, verbose=0)
+    # grid search epochs, batch size and optimizer
+    optimizers = ['rmsprop', 'adam']
+    init = ['glorot_uniform', 'normal', 'uniform']
+    epochs = [5, 10, 20]
+    batches = [5, 10, 20]
+    param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches, init=init)
+    grid = GridSearchCV(estimator=model, param_grid=param_grid)
+    grid_result = grid.fit(x, y)
+    # summarize results
+    print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+    means = grid_result.cv_results_['mean_test_score']
+    stds = grid_result.cv_results_['std_test_score']
+    params = grid_result.cv_results_['params']
+    for mean, stdev, param in zip(means, stds, params):
+        print("%f (%f) with: %r" % (mean, stdev, param))

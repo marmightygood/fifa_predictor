@@ -54,7 +54,7 @@ if __name__ == "__main__":
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    x, y, sc_X, sc_Y = prepare_data.prepare(os.path.join(root_dir, "data", "results.csv"))
+    x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
 
     # Run model
     print ("Running regressor")
@@ -70,6 +70,6 @@ if __name__ == "__main__":
     estimator.model.save(os.path.join(root_dir,"output","model.please"))
 
     #sanity check
-    predictor.predict_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
-    predictor.predict_outcome('2018-05-10', 'France', 'Spain', 'London', 'United Kingdom')
-    predictor.predict_outcome('1995-05-09', 'Spain', 'New Zealand', 'Barcelona', 'Spain')   
+    predictor.predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
+    predictor.predict_single_outcome('2018-05-10', 'France', 'Spain', 'London', 'United Kingdom')
+    predictor.predict_single_outcome('1995-05-09', 'Spain', 'New Zealand', 'Barcelona', 'Spain')   

@@ -13,33 +13,34 @@ from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.preprocessing import MinMaxScaler
+import prepare_data
 
 
 def build_by_loading():
     #get home path
-    home = expanduser("~")    
-    model = load_model(os.path.join(home,"model.please"))
+    root_dir = os.path.dirname(os.path.realpath(__file__)) 
+    model = load_model(os.path.join(root_dir,"output", "model.please"))
     return model 
 
 
-def predict_outcome (date, home_team, away_team, city, country):
+def predict_single_outcome (date, home_team, away_team, city, country):
     #get home path
-    home = expanduser("~")
+    root_dir = os.path.dirname(os.path.realpath(__file__))
 
     print ("Running prediction!")
 
     estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5, batch_size=100, verbose=1)
-    estimator.model = load_model(os.path.join(home,"model.please"))
+    estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
     #cities from csv file
-    cities = pd.read_csv(os.path.join(home,"cities.csv"))
+    cities = pd.read_csv(os.path.join(root_dir,"data", "cities.csv"))
     cities = cities.set_index(['city','country'])
 
     #countries from csv
     countries = cities.groupby('country').mean()
 
-    scaler = joblib.load("scaler.please") 
-    sc_X = joblib.load("scalerx.please") 
+    scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please")) 
+    sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
 
     #results = results[['date_int','lat','lng','lat_home','lng_home','lat_away','lng_away','home_score','away_score', 'pop_home', 'pop_away']]
     dt_date = dt.strptime(date, '%Y-%m-%d').date()
@@ -77,9 +78,35 @@ def predict_outcome (date, home_team, away_team, city, country):
     prediction = prediction.reshape(1,-1)
     print ("{0} vs {1}".format(home_team,away_team))
     print(scaler.inverse_transform(prediction))
+
+def predict_list(x):
+
+    root_dir = os.path.dirname(os.path.realpath(__file__))
+
+    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5, batch_size=100, verbose=1)
+    estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
+
+    prediction = estimator.predict(x)
+    scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please"))     
+    print(scaler.inverse_transform(prediction))       
+    return scaler.inverse_transform(prediction)
+
 if __name__ == "__main__":
-    predict_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
-    predict_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
-    predict_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
-    predict_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
-    predict_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')
+
+    root_dir = os.path.dirname(os.path.realpath(__file__))
+
+    prepared_schedule = prepare_data.schedule('fifa-world-cup-2018-RussianStandardTime.csv')
+    predictions = predict_list (prepared_schedule)
+    print (predictions)
+
+    predictions = pd.DataFrame(predictions, columns=['home_score','away_score'])
+    schedule = pd.read_csv(os.path.join(root_dir,"data", 'fifa-world-cup-2018-RussianStandardTime.csv'))
+
+    predictions = pd.concat((schedule,predictions), axis=1)
+    predictions.to_csv(os.path.join(root_dir,"output", 'predictions.csv'))
+
+    predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
+    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
+    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
+    predict_single_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
+    predict_single_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')
