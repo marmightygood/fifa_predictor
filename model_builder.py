@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=10, feature_count=6)
+    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=2, feature_count=5)
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)

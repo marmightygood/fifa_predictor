@@ -75,8 +75,11 @@ def training(training_data):
     results.to_csv(os.path.join(root_dir,"output","prepared.csv"))
 
     #get numpy arrays
-    x = results.values [:,0:6]
+    x = results.values [:,0:5]
     y = results.values [:,5: 8]
+
+    numpy.savetxt(os.path.join(root_dir,"output","x_prescaled.csv"), x, delimiter=",")
+    numpy.savetxt(os.path.join(root_dir,"output","y_prescaled.csv"), y, delimiter=",")    
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
     sc_X = MinMaxScaler()
@@ -88,8 +91,8 @@ def training(training_data):
     joblib.dump(sc_X,os.path.join(root_dir,"output", "x_scaler.please"))
 
     #debug
-    numpy.savetxt(os.path.join(root_dir,"output","x.csv"), x, delimiter=",")
-    numpy.savetxt(os.path.join(root_dir,"output","y.csv"), y, delimiter=",")
+    numpy.savetxt(os.path.join(root_dir,"output","x_scaled.csv"), x, delimiter=",")
+    numpy.savetxt(os.path.join(root_dir,"output","y_scaled.csv"), y, delimiter=",")
     return x, y, sc_X, sc_Y
 
 def schedule (schedule_data):
@@ -149,15 +152,16 @@ def schedule (schedule_data):
     schedule.to_csv(os.path.join(root_dir,"output","schedule_prepared.csv"))
 
     #get numpy arrays
-    x = schedule.values [:,0:6]
+    x = schedule.values [:,0:5]
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
-#    sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please"))     
+    # sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please"))   
+    numpy.savetxt(os.path.join(root_dir,"output","schedule_x.csv"), x, delimiter=",")
     x = sc_X.fit_transform(x)
-#    y = sc_Y.fit_transform(y)
+    # y = sc_Y.fit_transform(y)
 
     #debug
     numpy.savetxt(os.path.join(root_dir,"output","schedule_x.csv"), x, delimiter=",")
-#    numpy.savetxt(os.path.join(root_dir,"output","schedule_y.csv"), y, delimiter=",")
+    # numpy.savetxt(os.path.join(root_dir,"output","schedule_y.csv"), y, delimiter=",")
     return x

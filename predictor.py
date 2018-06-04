@@ -66,12 +66,16 @@ def predict_single_outcome (date, home_team, away_team, city, country):
     pop_away = away[2]
     try:
         travel = geodesic({lat, lng},{lat_away, lng_away}).kilometers
+        home_local = geodesic({lat, lng},{lat_home, lng_home}).kilometers
     except:
         travel = 0
+        home_local = 0
         pass
 
-    data_frame = pd.DataFrame(data = [{date_int,travel, pop_home, pop_away}])
-    
+    data_frame = pd.DataFrame(data = [{date_int,travel, home_local, pop_home, pop_away}])
+
+    print(data_frame)
+
     x = sc_X.transform(data_frame)
     
     prediction = estimator.predict(x)
@@ -95,6 +99,8 @@ if __name__ == "__main__":
 
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
+    predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
+
     prepared_schedule = prepare_data.schedule('fifa-world-cup-2018-RussianStandardTime.csv')
     predictions = predict_list (prepared_schedule)
     print (predictions)
@@ -106,7 +112,7 @@ if __name__ == "__main__":
     predictions.to_csv(os.path.join(root_dir,"output", 'predictions.csv'))
 
     predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
-    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
-    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
-    predict_single_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
-    predict_single_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')
+ #   predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
+ #   predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
+ #   predict_single_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
+ #   predict_single_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')
