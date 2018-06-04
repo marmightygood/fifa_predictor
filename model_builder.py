@@ -9,6 +9,7 @@ import pandas as pd
 from geopy.distance import geodesic
 from keras.layers import Dense
 from keras.models import Sequential
+from keras.layers import Dropout
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, KFold, cross_val_score,
@@ -21,28 +22,43 @@ import prepare_data
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(optimizer='rmsprop', init='glorot_uniform'):
-	# create model
-	model = Sequential()
-	model.add(Dense(12, input_dim=4, kernel_initializer=init, activation='relu'))
-	model.add(Dense(168, kernel_initializer=init, activation='relu'))
-	model.add(Dense(2, kernel_initializer=init, activation='sigmoid'))
-	# Compile model
-	model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-	return model
+def create_model(optimizer='rmsprop', init='glorot_uniform', hidden_layer_count = 2, feature_count = 4):
+    # create model
+    model = Sequential()
+
+    #input neurons = number of features plus 2
+    input_neurons = feature_count + 2
+
+    #input layer
+    model.add(Dense(input_neurons, input_dim=feature_count, kernel_initializer=init, activation='relu'))
+
+    #add hidden layers
+    hidden_layers_added = 0
+    neurons = input_neurons + 2
+    while hidden_layers_added < hidden_layer_count:
+        model.add(Dense(neurons, kernel_initializer=init))#, activation='relu'))
+        model.add(Dropout(0.1, noise_shape=None, seed=None))           
+        hidden_layers_added += 1
+        neurons += 2
+
+    #output layer
+    model.add(Dense(2, kernel_initializer=init, activation='sigmoid'))
+    # Compile model
+    model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    return model
 
 if __name__ == "__main__":
 
     print ("Building model!")
 
     #get home path
-    home = expanduser("~")
+    root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    x, y, sc_X, sc_Y = prepare_data.prepare("results.csv")
+    x, y, sc_X, sc_Y = prepare_data.prepare(os.path.join(root_dir, "data", "results.csv"))
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=200, batch_size=100, verbose=1)
+    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=10)
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)
@@ -51,7 +67,7 @@ if __name__ == "__main__":
 
     #save the model
     print ("Saving")
-    estimator.model.save(os.path.join(home,"model.please"))
+    estimator.model.save(os.path.join(root_dir,"output","model.please"))
 
     #sanity check
     predictor.predict_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')

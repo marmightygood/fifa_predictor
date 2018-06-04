@@ -23,20 +23,20 @@ import prepare_data
 
 def prepare(training_data):
     #get home path
-    home = expanduser("~")
+    root_dir = os.path.dirname(os.path.realpath(__file__))
 
     #load data
-    results = pd.read_csv(os.path.join(home,training_data),parse_dates=['date'], infer_datetime_format=True)
+    results = pd.read_csv(training_data,parse_dates=['date'], infer_datetime_format=True)
 
     #cities from csv file
-    cities = pd.read_csv(os.path.join(home,"cities.csv"))
+    cities = pd.read_csv(os.path.join(root_dir,"data","cities.csv"))
     cities = cities.set_index(['city','country'])
 
     #countries from csv
     countries_geo = cities.groupby('country')['lat','lng'].mean()
     countries_pop = cities.groupby('country')['pop'].sum()
     countries = countries_geo.join(other=countries_pop, rsuffix='_pop')
-    countries.to_csv(os.path.join(home,"countries.csv"))
+    countries.to_csv(os.path.join(root_dir,"data","countries.csv"))
 
     #join results to city to get fixture location geocodes
     results = results.join(other=cities, on=["city", "country"], rsuffix="_playedat", how="left")
@@ -61,7 +61,7 @@ def prepare(training_data):
     results['pop_away'] = results['pop_away'].fillna(results['pop_away'].min())
 
     results['geodesic'] = results.apply(lambda x: geodesic((x['lat'],x['lng']), (x['lat_away'],   x['lng_away'])).kilometers, axis=1)
-    results.to_csv(os.path.join(home,"lats_longs.csv"))
+    results.to_csv(os.path.join(root_dir,"output","lats_longs.csv"))
 
     #cut data for modelling
     results = results[['date_int','geodesic', 'pop_home', 'pop_away','home_score','away_score']]
@@ -70,7 +70,7 @@ def prepare(training_data):
     results = results.sample(frac=1)
 
     #review
-    results.to_csv(os.path.join(home,"prepared.csv"))
+    results.to_csv(os.path.join(root_dir,"output","prepared.csv"))
 
     #split to test and train
     train, test = train_test_split(results, test_size=0.2)
@@ -85,10 +85,10 @@ def prepare(training_data):
     sc_Y = MinMaxScaler()
     y = sc_Y.fit_transform(y)
 
-    joblib.dump(sc_Y, "scaler.please")
-    joblib.dump(sc_X, "scalerx.please")
+    joblib.dump(sc_Y,os.path.join(root_dir,"output", "y_scaler.please"))
+    joblib.dump(sc_X,os.path.join(root_dir,"output", "x_scaler.please"))
 
     #debug
-    numpy.savetxt(os.path.join(home,"x.csv"), x, delimiter=",")
-    numpy.savetxt(os.path.join(home,"y.csv"), y, delimiter=",")
+    numpy.savetxt(os.path.join(root_dir,"output","x.csv"), x, delimiter=",")
+    numpy.savetxt(os.path.join(root_dir,"output","y.csv"), y, delimiter=",")
     return x, y, sc_X, sc_Y
