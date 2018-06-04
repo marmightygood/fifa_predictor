@@ -6,17 +6,17 @@ setup (
        packages=find_packages(),
 
        # Declare your packages' dependencies here, for eg:
-       install_requires=['foo>=3'],
+       install_requires=['pandas', 'keras'],
 
        # Fill in these to make your Egg ready for upload to
        # PyPI
        author='ollie',
-       author_email='',
+       author_email='oliver@jonette.co.nz',
 
        #summary = 'Just another Python package for the cheese shop',
        url='',
        license='',
-       long_description='Long description of the package',
+       long_description='Predicts the FIFA world cup 2018',
 
        # could also include long_description, download_url, classifiers, etc.
 
