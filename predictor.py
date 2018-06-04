@@ -74,8 +74,6 @@ def predict_single_outcome (date, home_team, away_team, city, country):
 
     data_frame = pd.DataFrame(data = [{date_int,travel, home_local, pop_home, pop_away}])
 
-    print(data_frame)
-
     x = sc_X.transform(data_frame)
     
     prediction = estimator.predict(x)
@@ -91,8 +89,7 @@ def predict_list(x):
     estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
     prediction = estimator.predict(x)
-    scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please"))     
-    print(scaler.inverse_transform(prediction))       
+    scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please"))          
     return scaler.inverse_transform(prediction)
 
 if __name__ == "__main__":
@@ -103,7 +100,6 @@ if __name__ == "__main__":
 
     prepared_schedule = prepare_data.schedule('fifa-world-cup-2018-RussianStandardTime.csv')
     predictions = predict_list (prepared_schedule)
-    print (predictions)
 
     predictions = pd.DataFrame(predictions, columns=['home_score','away_score'])
     schedule = pd.read_csv(os.path.join(root_dir,"data", 'fifa-world-cup-2018-RussianStandardTime.csv'))
@@ -112,7 +108,7 @@ if __name__ == "__main__":
     predictions.to_csv(os.path.join(root_dir,"output", 'predictions.csv'))
 
     predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
- #   predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
- #   predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
- #   predict_single_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
- #   predict_single_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')
+    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
+    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
+    predict_single_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
+    predict_single_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')

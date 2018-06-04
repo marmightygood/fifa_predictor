@@ -1,65 +1,65 @@
 ,Round Number,Date,Location,Home Team,Away Team,Group,Result,home_score,away_score
-0,1,14/06/2018 18:00,"Luzhniki Stadium, Moscow",Russia,Saudi Arabia,Group A,,1.6416236,1.1493921
-1,1,15/06/2018 15:00,Ekaterinburg Stadium,Egypt,Uruguay,Group A,,1.8551203,1.0534686
-2,1,15/06/2018 18:00,Saint Petersburg Stadium,Morocco,Iran,Group B,,1.6789956,1.1311109
-3,1,15/06/2018 21:00,"Fisht Stadium, Sochi",Portugal,Spain,Group B,,2.4761567,0.8535316
-4,1,16/06/2018 13:00,Kazan Arena,France,Australia,Group C,,1.4740782,1.2401135
-5,1,16/06/2018 16:00,"Otkrytiye Arena, Moscow",Argentina,Iceland,Group D,,1.2973621,1.3553034
-6,1,16/06/2018 19:00,Saransk Stadium,Peru,Denmark,Group C,,1.7628189,1.0925515
-7,1,16/06/2018 22:00,Kaliningrad Stadium,Croatia,Nigeria,Group D,,1.5700154,1.1861376
-8,1,17/06/2018 15:00,Samara Stadium,Costa Rica,Serbia,Group E,,1.8259757,1.0653921
-9,1,17/06/2018 18:00,"Luzhniki Stadium, Moscow",Germany,Mexico,Group F,,1.282274,1.3664012
-10,1,17/06/2018 21:00,Rostov-on-Don Stadium,Brazil,Switzerland,Group E,,1.6006256,1.1700745
-11,1,18/06/2018 15:00,Nizhny Novgorod Stadium,Sweden,Korea Republic,Group F,,1.2933009,1.358323
-12,1,18/06/2018 18:00,"Fisht Stadium, Sochi",Belgium,Panama,Group G,,1.2016639,1.4290516
-13,1,18/06/2018 21:00,Volgograd Stadium,Tunisia,England,Group G,,1.4433018,1.2582852
-14,1,19/06/2018 15:00,Saransk Stadium,Colombia,Japan,Group H,,1.4559252,1.2503271
-15,1,19/06/2018 18:00,"Otkrytiye Arena, Moscow",Poland,Senegal,Group H,,1.468233,1.2435731
-16,2,19/06/2018 21:00,Saint Petersburg Stadium,Russia,Egypt,Group A,,1.4393364,1.2610064
-17,2,20/06/2018 15:00,"Luzhniki Stadium, Moscow",Portugal,Morocco,Group B,,1.9491369,1.0166086
-18,2,20/06/2018 18:00,Rostov-on-Don Stadium,Uruguay,Saudi Arabia,Group A,,1.4004095,1.2852011
-19,2,20/06/2018 21:00,Kazan Arena,Iran,Spain,Group B,,1.1244118,1.4958575
-20,2,21/06/2018 15:00,Samara Stadium,Denmark,Australia,Group C,,2.0876796,0.9673283
-21,2,21/06/2018 18:00,Ekaterinburg Stadium,France,Peru,Group C,,1.4566087,1.2505192
-22,2,21/06/2018 21:00,Nizhny Novgorod Stadium,Argentina,Croatia,Group D,,1.4109815,1.2786682
-23,2,22/06/2018 15:00,Saint Petersburg Stadium,Brazil,Costa Rica,Group E,,1.366542,1.3073386
-24,2,22/06/2018 18:00,Volgograd Stadium,Nigeria,Iceland,Group D,,1.3886808,1.2929642
-25,2,22/06/2018 21:00,Kaliningrad Stadium,Serbia,Switzerland,Group E,,1.6365457,1.1518204
-26,2,23/06/2018 15:00,"Otkrytiye Arena, Moscow",Belgium,Tunisia,Group G,,1.686988,1.1273077
-27,2,23/06/2018 18:00,Rostov-on-Don Stadium,Korea Republic,Mexico,Group F,,1.1922753,1.4367551
-28,2,23/06/2018 21:00,"Fisht Stadium, Sochi",Germany,Sweden,Group F,,1.6908895,1.1254511
-29,2,24/06/2018 15:00,Nizhny Novgorod Stadium,England,Panama,Group G,,1.25128,1.3891782
-30,2,24/06/2018 18:00,Ekaterinburg Stadium,Japan,Senegal,Group H,,1.3142033,1.3432502
-31,2,24/06/2018 21:00,Kazan Arena,Poland,Colombia,Group H,,1.8625202,1.050463
-32,3,25/06/2018 17:00,Samara Stadium,Uruguay,Russia,Group A,,1.4336224,1.2645205
-33,3,25/06/2018 17:00,Volgograd Stadium,Saudi Arabia,Egypt,Group A,,1.2993337,1.3539145
-34,3,25/06/2018 21:00,Saransk Stadium,Iran,Portugal,Group B,,1.4740782,1.2401135
-35,3,25/06/2018 21:00,Kaliningrad Stadium,Spain,Morocco,Group B,,1.0574769,1.55962
-36,3,26/06/2018 17:00,"Luzhniki Stadium, Moscow",Denmark,France,Group C,,1.468233,1.2435731
-37,3,26/06/2018 17:00,"Fisht Stadium, Sochi",Australia,Peru,Group C,,1.266879,1.3778671
-38,3,26/06/2018 21:00,Saint Petersburg Stadium,Nigeria,Argentina,Group D,,1.5221657,1.2119521
-39,3,26/06/2018 21:00,Rostov-on-Don Stadium,Iceland,Croatia,Group D,,1.3481072,1.3197525
-40,3,27/06/2018 17:00,Ekaterinburg Stadium,Mexico,Sweden,Group F,,1.9901748,1.0014082
-41,3,27/06/2018 17:00,Kazan Arena,Korea Republic,Germany,Group F,,2.0794914,0.97002906
-42,3,27/06/2018 21:00,"Otkrytiye Arena, Moscow",Serbia,Brazil,Group E,,1.991242,1.0010295
-43,3,27/06/2018 21:00,Nizhny Novgorod Stadium,Switzerland,Costa Rica,Group E,,1.5318098,1.2069069
-44,3,28/06/2018 17:00,Volgograd Stadium,Japan,Poland,Group H,,1.4336224,1.2645205
-45,3,28/06/2018 17:00,Samara Stadium,Senegal,Colombia,Group H,,0.9614246,1.6635352
-46,3,28/06/2018 21:00,Saransk Stadium,Panama,Tunisia,Group G,,1.3280019,1.3336053
-47,3,28/06/2018 21:00,Kaliningrad Stadium,England,Belgium,Group G,,1.9168413,1.0288597
-48,Round of 16,30/06/2018 17:00,Kazan Arena,Winner Group C,Runner-up Group D,,,1.6790001,1.1310842
-49,Round of 16,30/06/2018 21:00,"Fisht Stadium, Sochi",Winner Group A,Runner-up Group B	,,,1.4166096,1.2751175
-50,Round of 16,01/07/2018 17:00,"Luzhniki Stadium, Moscow",Winner Group B,Runner-up Group A	,,,1.46241,1.2470415
-51,Round of 16,01/07/2018 21:00,Nizhny Novgorod Stadium,Winner Group D,Runner-up Group C,,,1.1582476,1.465611
-52,Round of 16,02/07/2018 17:00,Samara Stadium,Winner Group E,Runner-up Group F,,,1.3172623,1.3411437
-53,Round of 16,02/07/2018 21:00,Rostov-on-Don Stadium,Winner Group G,Runner-up Group H,,,1.18675,1.4413203
-54,Round of 16,03/07/2018 17:00,Saint Petersburg Stadium,Winner Group F,Runner-up Group E,,,1.1573151,1.466267
-55,Round of 16,03/07/2018 21:00,"Otkrytiye Arena, Moscow",Winner Group H,Runner-up Group G,,,1.7420288,1.1017915
-56,Quarter Finals,06/07/2018 17:00,Nizhny Novgorod Stadium,To be announced,To be announced,,,1.4566087,1.2505192
-57,Quarter Finals,06/07/2018 21:00,Kazan Arena,To be announced,To be announced,,,1.46241,1.2470415
-58,Quarter Finals,07/07/2018 17:00,Samara Stadium,To be announced,To be announced,,,1.1881032,1.440222
-59,Quarter Finals,07/07/2018 21:00,"Fisht Stadium, Sochi",To be announced,To be announced,,,1.3942244,1.2893763
-60,Semi Finals,10/07/2018 21:00,Saint Petersburg Stadium,To be announced,To be announced,,,1.5421046,1.2012279
-61,Semi Finals,11/07/2018 21:00,"Luzhniki Stadium, Moscow",To be announced,To be announced,,,1.8934253,1.0380492
-62,Finals,14/07/2018 17:00,Saint Petersburg Stadium,To be announced,To be announced,,,1.5366509,1.2038207
-63,Finals,15/07/2018 18:00,"Luzhniki Stadium, Moscow",To be announced,To be announced,,,1.4393364,1.2610064
+0,1,14/06/2018 18:00,"Luzhniki Stadium, Moscow",Russia,Saudi Arabia,Group A,,1.404863,1.1557286
+1,1,15/06/2018 15:00,Ekaterinburg Stadium,Egypt,Uruguay,Group A,,1.338064,1.1823801
+2,1,15/06/2018 18:00,Saint Petersburg Stadium,Morocco,Iran,Group B,,1.3997941,1.0625862
+3,1,15/06/2018 21:00,"Fisht Stadium, Sochi",Portugal,Spain,Group B,,1.3960415,1.2040489
+4,1,16/06/2018 13:00,Kazan Arena,France,Australia,Group C,,1.4245113,1.0074534
+5,1,16/06/2018 16:00,"Otkrytiye Arena, Moscow",Argentina,Iceland,Group D,,1.2011601,1.5523611
+6,1,16/06/2018 19:00,Saransk Stadium,Peru,Denmark,Group C,,1.3211585,1.3656433
+7,1,16/06/2018 22:00,Kaliningrad Stadium,Croatia,Nigeria,Group D,,1.2817472,1.2108297
+8,1,17/06/2018 15:00,Samara Stadium,Costa Rica,Serbia,Group E,,1.3921326,1.2718475
+9,1,17/06/2018 18:00,"Luzhniki Stadium, Moscow",Germany,Mexico,Group F,,1.6831349,1.1048546
+10,1,17/06/2018 21:00,Rostov-on-Don Stadium,Brazil,Switzerland,Group E,,1.2990181,1.3972375
+11,1,18/06/2018 15:00,Nizhny Novgorod Stadium,Sweden,Korea Republic,Group F,,1.1850245,1.5915834
+12,1,18/06/2018 18:00,"Fisht Stadium, Sochi",Belgium,Panama,Group G,,1.3737252,1.163264
+13,1,18/06/2018 21:00,Volgograd Stadium,Tunisia,England,Group G,,1.8476901,1.1098543
+14,1,19/06/2018 15:00,Saransk Stadium,Colombia,Japan,Group H,,1.753859,0.9412686
+15,1,19/06/2018 18:00,"Otkrytiye Arena, Moscow",Poland,Senegal,Group H,,1.2659022,1.2647743
+16,2,19/06/2018 21:00,Saint Petersburg Stadium,Russia,Egypt,Group A,,1.3924721,1.2718989
+17,2,20/06/2018 15:00,"Luzhniki Stadium, Moscow",Portugal,Morocco,Group B,,1.3921326,1.2718475
+18,2,20/06/2018 18:00,Rostov-on-Don Stadium,Uruguay,Saudi Arabia,Group A,,1.1517166,1.5725571
+19,2,20/06/2018 21:00,Kazan Arena,Iran,Spain,Group B,,1.3639283,1.18437
+20,2,21/06/2018 15:00,Samara Stadium,Denmark,Australia,Group C,,1.3253075,1.1813866
+21,2,21/06/2018 18:00,Ekaterinburg Stadium,France,Peru,Group C,,1.3253075,1.1813866
+22,2,21/06/2018 21:00,Nizhny Novgorod Stadium,Argentina,Croatia,Group D,,1.3921326,1.2718475
+23,2,22/06/2018 15:00,Saint Petersburg Stadium,Brazil,Costa Rica,Group E,,1.69908,1.1123824
+24,2,22/06/2018 18:00,Volgograd Stadium,Nigeria,Iceland,Group D,,1.4533683,1.1890084
+25,2,22/06/2018 21:00,Kaliningrad Stadium,Serbia,Switzerland,Group E,,1.5382165,1.4303734
+26,2,23/06/2018 15:00,"Otkrytiye Arena, Moscow",Belgium,Tunisia,Group G,,1.3007379,1.3192081
+27,2,23/06/2018 18:00,Rostov-on-Don Stadium,Korea Republic,Mexico,Group F,,2.2547812,0.9358434
+28,2,23/06/2018 21:00,"Fisht Stadium, Sochi",Germany,Sweden,Group F,,1.3509369,1.1833746
+29,2,24/06/2018 15:00,Nizhny Novgorod Stadium,England,Panama,Group G,,1.8862716,0.9740946
+30,2,24/06/2018 18:00,Ekaterinburg Stadium,Japan,Senegal,Group H,,1.3921326,1.2718475
+31,2,24/06/2018 21:00,Kazan Arena,Poland,Colombia,Group H,,1.8830879,0.9421217
+32,3,25/06/2018 17:00,Samara Stadium,Uruguay,Russia,Group A,,1.3332316,1.1733832
+33,3,25/06/2018 17:00,Volgograd Stadium,Saudi Arabia,Egypt,Group A,,1.1937265,1.4205765
+34,3,25/06/2018 21:00,Saransk Stadium,Iran,Portugal,Group B,,2.1603432,1.045476
+35,3,25/06/2018 21:00,Kaliningrad Stadium,Spain,Morocco,Group B,,1.3496193,1.2682583
+36,3,26/06/2018 17:00,"Luzhniki Stadium, Moscow",Denmark,France,Group C,,1.5499895,1.0692991
+37,3,26/06/2018 17:00,"Fisht Stadium, Sochi",Australia,Peru,Group C,,1.969468,1.0136714
+38,3,26/06/2018 21:00,Saint Petersburg Stadium,Nigeria,Argentina,Group D,,1.3458954,1.3371738
+39,3,26/06/2018 21:00,Rostov-on-Don Stadium,Iceland,Croatia,Group D,,1.4875234,0.9695651
+40,3,27/06/2018 17:00,Ekaterinburg Stadium,Mexico,Sweden,Group F,,1.3388033,1.3412921
+41,3,27/06/2018 17:00,Kazan Arena,Korea Republic,Germany,Group F,,1.4261606,1.1853693
+42,3,27/06/2018 21:00,"Otkrytiye Arena, Moscow",Serbia,Brazil,Group E,,1.3232877,1.1759261
+43,3,27/06/2018 21:00,Nizhny Novgorod Stadium,Switzerland,Costa Rica,Group E,,1.2232428,1.3506935
+44,3,28/06/2018 17:00,Volgograd Stadium,Japan,Poland,Group H,,1.338064,1.1823801
+45,3,28/06/2018 17:00,Samara Stadium,Senegal,Colombia,Group H,,1.4624659,1.0867575
+46,3,28/06/2018 21:00,Saransk Stadium,Panama,Tunisia,Group G,,1.1430529,1.671855
+47,3,28/06/2018 21:00,Kaliningrad Stadium,England,Belgium,Group G,,1.5583063,1.1305652
+48,Round of 16,30/06/2018 17:00,Kazan Arena,Winner Group C,Runner-up Group D,,,1.3307841,1.2660446
+49,Round of 16,30/06/2018 21:00,"Fisht Stadium, Sochi",Winner Group A,Runner-up Group B	,,,1.3232877,1.1759261
+50,Round of 16,01/07/2018 17:00,"Luzhniki Stadium, Moscow",Winner Group B,Runner-up Group A	,,,1.3634931,1.1657859
+51,Round of 16,01/07/2018 21:00,Nizhny Novgorod Stadium,Winner Group D,Runner-up Group C,,,1.6738915,0.91556716
+52,Round of 16,02/07/2018 17:00,Samara Stadium,Winner Group E,Runner-up Group F,,,1.403778,1.273611
+53,Round of 16,02/07/2018 21:00,Rostov-on-Don Stadium,Winner Group G,Runner-up Group H,,,1.359046,1.5114168
+54,Round of 16,03/07/2018 17:00,Saint Petersburg Stadium,Winner Group F,Runner-up Group E,,,1.3332316,1.1733832
+55,Round of 16,03/07/2018 21:00,"Otkrytiye Arena, Moscow",Winner Group H,Runner-up Group G,,,1.5148412,1.1655499
+56,Quarter Finals,06/07/2018 17:00,Nizhny Novgorod Stadium,To be announced,To be announced,,,1.3509369,1.1833746
+57,Quarter Finals,06/07/2018 21:00,Kazan Arena,To be announced,To be announced,,,1.2831008,1.4049729
+58,Quarter Finals,07/07/2018 17:00,Samara Stadium,To be announced,To be announced,,,1.4153905,1.1532267
+59,Quarter Finals,07/07/2018 21:00,"Fisht Stadium, Sochi",To be announced,To be announced,,,1.3954374,1.2723491
+60,Semi Finals,10/07/2018 21:00,Saint Petersburg Stadium,To be announced,To be announced,,,1.3639283,1.18437
+61,Semi Finals,11/07/2018 21:00,"Luzhniki Stadium, Moscow",To be announced,To be announced,,,1.4323167,1.277884
+62,Finals,14/07/2018 17:00,Saint Petersburg Stadium,To be announced,To be announced,,,1.3150443,1.2653466
+63,Finals,15/07/2018 18:00,"Luzhniki Stadium, Moscow",To be announced,To be announced,,,1.3921326,1.2718475
