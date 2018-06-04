@@ -61,10 +61,12 @@ def training(training_data):
     results['pop_away'] = results['pop_away'].fillna(results['pop_away'].min())
 
     results['geodesic'] = results.apply(lambda x: geodesic((x['lat'],x['lng']), (x['lat_away'],   x['lng_away'])).kilometers, axis=1)
+    results['geodesic_home'] = results.apply(lambda x: geodesic((x['lat'],x['lng']), (x['lat_home'],   x['lng_home'])).kilometers, axis=1)
+ 
     results.to_csv(os.path.join(root_dir,"output","lats_longs.csv"))
 
     #cut data for modelling
-    results = results[['date_int','geodesic', 'pop_home', 'pop_away','home_score','away_score']]
+    results = results[['date_int','geodesic', 'geodesic_home','pop_home', 'pop_away','home_score','away_score']]
 
     #shuffle
     results = results.sample(frac=1)
@@ -72,12 +74,9 @@ def training(training_data):
     #review
     results.to_csv(os.path.join(root_dir,"output","prepared.csv"))
 
-    #split to test and train
-    train, test = train_test_split(results, test_size=0.2)
-
     #get numpy arrays
-    x = results.values [:,0:4]
-    y = results.values [:,4: 7]
+    x = results.values [:,0:6]
+    y = results.values [:,5: 8]
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
     sc_X = MinMaxScaler()
@@ -137,10 +136,11 @@ def schedule (schedule_data):
     schedule.to_csv(os.path.join(root_dir,"output","pre_geocoding.csv"))
 
     schedule['geodesic'] = schedule.apply(lambda x: geodesic((x['lat'],x['lng']), (x['lat_away'],   x['lng_away'])).kilometers, axis=1)
+    schedule['geodesic_home'] = schedule.apply(lambda x: geodesic((x['lat'],x['lng']), (x['lat_home'],   x['lng_home'])).kilometers, axis=1)
     schedule.to_csv(os.path.join(root_dir,"output","lats_longs.csv"))
 
     #cut data for modelling
-    schedule = schedule[['date_int','geodesic', 'pop_home', 'pop_away','result']]
+    schedule = schedule[['date_int','geodesic','geodesic_home', 'pop_home', 'pop_away','result']]
 
     #shuffle
     schedule = schedule.sample(frac=1)
@@ -149,7 +149,7 @@ def schedule (schedule_data):
     schedule.to_csv(os.path.join(root_dir,"output","schedule_prepared.csv"))
 
     #get numpy arrays
-    x = schedule.values [:,0:4]
+    x = schedule.values [:,0:6]
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
