@@ -1,4 +1,6 @@
 
+##Updated to work better on windows
+
 import datetime as do
 import os.path
 from datetime import datetime as dt
@@ -20,13 +22,13 @@ import datetime
 import predictor
 import prepare_data
 
-
 def training(training_data):
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
     #load data
     results = pd.read_csv(training_data,parse_dates=['date'], infer_datetime_format=True)
+
 
     #cities from csv file
     cities = pd.read_csv(os.path.join(root_dir,"data","cities.csv"))
@@ -46,10 +48,11 @@ def training(training_data):
     results = results.join(other=countries, on=["away_team"], rsuffix="_away", how="left")
 
     #convert dates hard_date = datetime.date(2013, 5, 2)
-    hard_date = datetime.date(1800,11, 1)
+    hard_date = do.datetime(1800,11, 1)  
     results['date_delta'] = results['date'] - hard_date
     results['date_int'] = results['date_delta'].dt.days
 
+            
     #fill in nas
     results['lat'] = results['lat'].fillna(results['lat'].min())
     results['lng'] = results['lng'].fillna(results['lng'].min())
@@ -122,7 +125,7 @@ def schedule (schedule_data):
     schedule = schedule.join(other=countries, on=["away_team"], rsuffix="_away", how="left")
 
     #convert dates hard_date = datetime.date(2013, 5, 2)
-    hard_date = datetime.date(1800,11, 1)
+    hard_date = do.datetime(1800,11, 1)  
     schedule['date_delta'] = schedule['date'] - hard_date
     schedule['date_int'] = schedule['date_delta'].dt.days
 

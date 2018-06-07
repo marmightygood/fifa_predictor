@@ -43,8 +43,8 @@ def predict_single_outcome (date, home_team, away_team, city, country):
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
 
     #results = results[['date_int','lat','lng','lat_home','lng_home','lat_away','lng_away','home_score','away_score', 'pop_home', 'pop_away']]
-    dt_date = dt.strptime(date, '%Y-%m-%d').date()
-    hard_date = do.date(1800,11, 1)
+    dt_date = dt.strptime(date, '%Y-%m-%d')
+    hard_date = dt.strptime('1800-11-01', '%Y-%m-%d')
     date_delta = dt_date - hard_date
     date_int = date_delta.days
 

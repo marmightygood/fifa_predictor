@@ -22,7 +22,7 @@ import prepare_data
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(optimizer='rmsprop', init='glorot_uniform', hidden_layer_count = 2, feature_count = 4):
+def create_model(optimizer='rmsprop', init='glorot_uniform', hidden_layer_count = 2, feature_count = 5):
     # create model
     model = Sequential()
 
