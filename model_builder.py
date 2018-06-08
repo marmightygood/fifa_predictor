@@ -22,7 +22,7 @@ import prepare_data
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(optimizer='rmsprop', init='glorot_uniform', hidden_layer_count = 2, feature_count = 5):
+def create_model(optimizer='adam', init='uniform', hidden_layer_count = 2, feature_count = 5, output_count= 2):
     # create model
     model = Sequential()
 
@@ -42,7 +42,7 @@ def create_model(optimizer='rmsprop', init='glorot_uniform', hidden_layer_count 
         neurons += 2
 
     #output layer
-    model.add(Dense(2, kernel_initializer=init, activation='sigmoid'))
+    model.add(Dense(output_count, kernel_initializer=init, activation='sigmoid'))
     # Compile model
     model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accuracy'])
     return model
@@ -54,11 +54,11 @@ if __name__ == "__main__":
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
+    x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv"))
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=2, feature_count=5)
+    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=5, feature_count=len(x[0]), output_count= len(y[0]))
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)

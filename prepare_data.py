@@ -22,6 +22,13 @@ import datetime
 import predictor
 import prepare_data
 
+if __name__ == "__main__":
+
+     root_dir = os.path.dirname(os.path.realpath(__file__))
+
+     prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
+     prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
+
 def training(training_data):
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
