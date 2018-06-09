@@ -10,6 +10,11 @@ from geopy.distance import geodesic
 from keras.layers import Dense
 from keras.models import Sequential
 from keras.layers import Dropout
+from keras.layers import SimpleRNN
+from keras.layers import SimpleRNNCell
+from keras.layers import Activation
+from keras.layers import Flatten
+
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, KFold, cross_val_score,
@@ -22,7 +27,7 @@ import prepare_data
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(optimizer='adam', init='uniform', hidden_layer_count = 2, feature_count = 5, output_count= 2):
+def create_model(optimizer='adam', init='random_uniform', hidden_layer_count = 2, feature_count = 5, output_count= 2):
     # create model
     model = Sequential()
 
@@ -37,7 +42,7 @@ def create_model(optimizer='adam', init='uniform', hidden_layer_count = 2, featu
     neurons = input_neurons + 2
     while hidden_layers_added < hidden_layer_count:
         model.add(Dense(neurons, kernel_initializer=init))#, activation='relu'))
-        model.add(Dropout(0.1, noise_shape=None, seed=None))           
+        model.add(Dropout(0.1, noise_shape=None, seed=None))      
         hidden_layers_added += 1
         neurons += 2
 
@@ -54,11 +59,13 @@ if __name__ == "__main__":
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv"))
+    # x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv")
+    x = numpy.loadtxt(os.path.join(root_dir,"output","x_scaled.csv"),  delimiter=",")
+    y = numpy.loadtxt(os.path.join(root_dir,"output","y_scaled.csv"),  delimiter=",")    
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=5, feature_count=len(x[0]), output_count= len(y[0]))
+    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=1, feature_count=len(x[0]), output_count= len(y[0]))
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)

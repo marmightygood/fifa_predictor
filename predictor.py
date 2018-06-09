@@ -29,6 +29,9 @@ def predict_single_outcome (date, home_team, away_team, city, country):
 
     print ("Running prediction!")
 
+    en = joblib.load(os.path.join(root_dir,"output", "label_encoder.please"))
+    tournament = en.transform("FIFA World Cup")
+
     estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5, batch_size=100, verbose=1)
     estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
@@ -72,7 +75,7 @@ def predict_single_outcome (date, home_team, away_team, city, country):
         home_local = 0
         pass
 
-    data_frame = pd.DataFrame(data = [{date_int,travel, home_local, pop_home, pop_away}])
+    data_frame = pd.DataFrame(data = [{date_int, tournament, travel, home_local, pop_home, pop_away}])
 
     x = sc_X.transform(data_frame)
     
@@ -96,8 +99,8 @@ if __name__ == "__main__":
 
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
-
+    ##schedule
+    print("Predictions of world cup schedule")
     prepared_schedule = prepare_data.schedule('fifa-world-cup-2018-RussianStandardTime.csv')
     predictions = predict_list (prepared_schedule)
 
@@ -105,8 +108,20 @@ if __name__ == "__main__":
     schedule = pd.read_csv(os.path.join(root_dir,"data", 'fifa-world-cup-2018-RussianStandardTime.csv'))
 
     predictions = pd.concat((schedule,predictions), axis=1)
-    predictions.to_csv(os.path.join(root_dir,"output", 'predictions.csv'))
+    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_schedule.csv'))
 
+    ##original data
+    print("Predictions on original data")
+    prepared_results = pd.read_csv(os.path.join(root_dir,"output", 'x_scaled.csv'))
+    predictions = predict_list (prepared_results)
+
+    predictions = pd.DataFrame(predictions, columns=['home_score','away_score'])
+    fullresults = pd.read_csv(os.path.join(root_dir,"data", "results.csv"))
+
+    predictions = pd.concat((fullresults,predictions), axis=1)
+    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_results.csv'))
+
+    print("Predicting singletons")
     predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
     predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
     predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')

@@ -16,6 +16,7 @@ from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, KFold, cross_val_score,
                                      train_test_split)
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
 
 import datetime
 
@@ -26,7 +27,7 @@ if __name__ == "__main__":
 
      root_dir = os.path.dirname(os.path.realpath(__file__))
 
-     prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
+     #prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
      prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
 
 def training(training_data):
@@ -59,7 +60,10 @@ def training(training_data):
     results['date_delta'] = results['date'] - hard_date
     results['date_int'] = results['date_delta'].dt.days
 
-            
+    en = LabelEncoder()
+    results['tournament'] = en.fit_transform(results['tournament'])
+    joblib.dump(en,os.path.join(root_dir,"output", "label_encoder.please"))
+
     #fill in nas
     results['lat'] = results['lat'].fillna(results['lat'].min())
     results['lng'] = results['lng'].fillna(results['lng'].min())
@@ -76,7 +80,7 @@ def training(training_data):
     results.to_csv(os.path.join(root_dir,"output","lats_longs.csv"))
 
     #cut data for modelling
-    results = results[['date_int','geodesic', 'geodesic_home','pop_home', 'pop_away','home_score','away_score']]
+    results = results[['date_int','tournament','geodesic', 'geodesic_home','pop_home', 'pop_away','home_score','away_score']]
 
     #shuffle
     results = results.sample(frac=1)
@@ -85,8 +89,8 @@ def training(training_data):
     results.to_csv(os.path.join(root_dir,"output","prepared.csv"))
 
     #get numpy arrays
-    x = results.values [:,0:5]
-    y = results.values [:,5: 8]
+    x = results.values [:,0:6]
+    y = results.values [:,6: 8]
 
     numpy.savetxt(os.path.join(root_dir,"output","x_prescaled.csv"), x, delimiter=",")
     numpy.savetxt(os.path.join(root_dir,"output","y_prescaled.csv"), y, delimiter=",")    
@@ -152,8 +156,13 @@ def schedule (schedule_data):
     schedule['geodesic_home'] = schedule.apply(lambda x: geodesic((x['lat'],x['lng']), (x['lat_home'],   x['lng_home'])).kilometers, axis=1)
     schedule.to_csv(os.path.join(root_dir,"output","lats_longs.csv"))
 
+    en = joblib.load(os.path.join(root_dir,"output", "label_encoder.please"))
+    tournament = "FIFA World Cup"
+    schedule['tournament'] = tournament
+    schedule['tournament'] = en.transform(schedule['tournament'])
+
     #cut data for modelling
-    schedule = schedule[['date_int','geodesic','geodesic_home', 'pop_home', 'pop_away','result']]
+    schedule = schedule[['date_int','tournament','geodesic','geodesic_home', 'pop_home', 'pop_away','result']]
 
     #shuffle
     schedule = schedule.sample(frac=1)
@@ -162,7 +171,8 @@ def schedule (schedule_data):
     schedule.to_csv(os.path.join(root_dir,"output","schedule_prepared.csv"))
 
     #get numpy arrays
-    x = schedule.values [:,0:5]
+    x = schedule.values [:,0:6]
+
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
