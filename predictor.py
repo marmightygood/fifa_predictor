@@ -30,9 +30,10 @@ def predict_single_outcome (date, home_team, away_team, city, country):
     print ("Running prediction!")
 
     en = joblib.load(os.path.join(root_dir,"output", "label_encoder.please"))
-    tournament = en.transform("FIFA World Cup")
+    tournament = ["FIFA World Cup"]
+    tournament = en.transform(tournament)[0]
 
-    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5, batch_size=100, verbose=1)
+    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5000, batch_size=50, verbose=1)
     estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
     #cities from csv file
@@ -40,7 +41,8 @@ def predict_single_outcome (date, home_team, away_team, city, country):
     cities = cities.set_index(['city','country'])
 
     #countries from csv
-    countries = cities.groupby('country').mean()
+    countries =  pd.read_csv(os.path.join(root_dir,"data","countries.csv"))
+    coutries = countries.set_index (['country'])
 
     scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please")) 
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
@@ -75,11 +77,19 @@ def predict_single_outcome (date, home_team, away_team, city, country):
         home_local = 0
         pass
 
-    data_frame = pd.DataFrame(data = [{date_int, tournament, travel, home_local, pop_home, pop_away}])
+
+    data_frame = pd.DataFrame(columns = ['date_int', 'tournament', 'travel', 'home_local', 'pop_home', 'pop_away'])
+    data_frame.loc[0] = [date_int, tournament, travel, home_local, pop_home, pop_away]
+    print ("Fed to x-scaler")
+    print (data_frame)
 
     x = sc_X.transform(data_frame)
-    
+
+    print ("Fed to estimator")
+    print (x)
+
     prediction = estimator.predict(x)
+
     prediction = prediction.reshape(1,-1)
     print ("{0} vs {1}".format(home_team,away_team))
     print(scaler.inverse_transform(prediction))
@@ -88,9 +98,11 @@ def predict_list(x):
 
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5, batch_size=100, verbose=1)
+    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5000, batch_size=50, verbose=1)
     estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
+    print ("Fed to estimator")
+    print (x)
     prediction = estimator.predict(x)
     scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please"))          
     return scaler.inverse_transform(prediction)
@@ -108,22 +120,19 @@ if __name__ == "__main__":
     schedule = pd.read_csv(os.path.join(root_dir,"data", 'fifa-world-cup-2018-RussianStandardTime.csv'))
 
     predictions = pd.concat((schedule,predictions), axis=1)
-    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_schedule.csv'))
+    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_schedule_15.csv'))
 
     ##original data
-    print("Predictions on original data")
-    prepared_results = pd.read_csv(os.path.join(root_dir,"output", 'x_scaled.csv'))
-    predictions = predict_list (prepared_results)
+    # print("Predictions on original data")
+    # prepared_results = pd.read_csv(os.path.join(root_dir,"output", 'x_scaled.csv'))
+    # predictions = predict_list (prepared_results)
 
-    predictions = pd.DataFrame(predictions, columns=['home_score','away_score'])
-    fullresults = pd.read_csv(os.path.join(root_dir,"data", "results.csv"))
+    #predictions = pd.DataFrame(predictions, columns=['home_score','away_score'])
+    #fullresults = pd.read_csv(os.path.join(root_dir,"data", "results.csv"))
 
-    predictions = pd.concat((fullresults,predictions), axis=1)
-    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_results.csv'))
+    #predictions = pd.concat((fullresults,predictions), axis=1)
+    #predictions.to_csv(os.path.join(root_dir,"output", 'predictions_results.csv'))
 
     print("Predicting singletons")
-    predict_single_outcome('2018-05-25', 'Brazil', 'Spain', 'London', 'United Kingdom')
-    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Wellington', 'New Zealand')
-    predict_single_outcome('2018-05-10', 'France', 'Spain', 'Paris', 'France')
-    predict_single_outcome('2018-05-09', 'Spain', 'France', 'Barcelona', 'Spain')
-    predict_single_outcome('2018-05-09', 'New Zealand', 'Australia', 'Sydney', 'Australia')
+    predict_single_outcome('2018-06-16', 'France', 'Australia', 'Moscow', 'Russia')
+#4,1,16/06/2018 13:00,Kazan Arena,France,Australia,Group C,,1.6349037,5.3673425

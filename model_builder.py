@@ -27,7 +27,7 @@ import prepare_data
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(optimizer='adam', init='random_uniform', hidden_layer_count = 2, feature_count = 5, output_count= 2):
+def create_model(optimizer='rmsprop', init='glorot_uniform', hidden_layer_count = 2, feature_count = 6, output_count= 2):
     # create model
     model = Sequential()
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=50, batch_size=50, verbose=1, hidden_layer_count=1, feature_count=len(x[0]), output_count= len(y[0]))
+    estimator = KerasRegressor(build_fn=create_model, epochs=5000, batch_size=50, verbose=1, hidden_layer_count=2, feature_count=len(x[0]), output_count= len(y[0]))
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)

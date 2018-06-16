@@ -28,7 +28,7 @@ if __name__ == "__main__":
      root_dir = os.path.dirname(os.path.realpath(__file__))
 
      #prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
-     prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
+     prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv"))
 
 def training(training_data):
     #get home path
@@ -117,6 +117,7 @@ def schedule (schedule_data):
     schedule = pd.read_csv(os.path.join(root_dir, "data",schedule_data),parse_dates=['Date'], infer_datetime_format=True) 
     schedule.columns=['round','date','city','home_team','away_team','group','result']
     schedule["country"] = 'Russia'
+    schedule["city"] = "Moscow"
 
     #cities from csv file
     cities = pd.read_csv(os.path.join(root_dir,"data","cities.csv"))
@@ -164,9 +165,6 @@ def schedule (schedule_data):
     #cut data for modelling
     schedule = schedule[['date_int','tournament','geodesic','geodesic_home', 'pop_home', 'pop_away','result']]
 
-    #shuffle
-    schedule = schedule.sample(frac=1)
-
     #review
     schedule.to_csv(os.path.join(root_dir,"output","schedule_prepared.csv"))
 
@@ -178,7 +176,11 @@ def schedule (schedule_data):
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
     # sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please"))   
     numpy.savetxt(os.path.join(root_dir,"output","schedule_x.csv"), x, delimiter=",")
-    x = sc_X.fit_transform(x)
+
+    print ("Fed to x-scaler")
+    print (x)
+
+    x = sc_X.transform(x)
     # y = sc_Y.fit_transform(y)
 
     #debug

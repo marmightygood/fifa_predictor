@@ -31,14 +31,14 @@ if __name__ == "__main__":
     x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir,"data", "results.csv"))
 
     # create model
-    model = KerasRegressor(build_fn=model_builder.create_model, verbose=1, feature_count=5)
+    model = KerasRegressor(build_fn=model_builder.create_model, verbose=1, feature_count=len(x[0]), output_count= len(y[0]))
 
     # grid search epochs, batch size and optimizer
-    optimizers = ['rmsprop', 'adam']
-    init = ['glorot_uniform', 'normal', 'uniform']
-    epochs = [5, 10]
-    batches = [50, 100, 200]
-    hidden_layer_counts = [1, 3, 10]
+    optimizers = ['rmsprop']#, 'adam']
+    init = ['glorot_uniform']#, 'normal', 'uniform']
+    epochs = [1000,5000, 10000]
+    batches = [50]
+    hidden_layer_counts = [1, 2, 3]
     param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches,hidden_layer_count=hidden_layer_counts, init=init)
     grid = GridSearchCV(estimator=model, param_grid=param_grid)
     grid_result = grid.fit(x, y)
