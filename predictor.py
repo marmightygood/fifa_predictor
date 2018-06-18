@@ -12,7 +12,7 @@ from keras.models import Sequential, load_model
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import GridSearchCV, KFold, train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 import prepare_data
 
 
@@ -111,6 +111,10 @@ if __name__ == "__main__":
 
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
+    import time
+    timestr = time.strftime("%Y%m%d_%H%M%S")
+
+
     ##schedule
     print("Predictions of world cup schedule")
     prepared_schedule = prepare_data.schedule('fifa-world-cup-2018-RussianStandardTime.csv')
@@ -120,7 +124,7 @@ if __name__ == "__main__":
     schedule = pd.read_csv(os.path.join(root_dir,"data", 'fifa-world-cup-2018-RussianStandardTime.csv'))
 
     predictions = pd.concat((schedule,predictions), axis=1)
-    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_schedule_15.csv'))
+    predictions.to_csv(os.path.join(root_dir,"output", 'predictions_schedule_'+timestr+'.csv'))
 
     ##original data
     # print("Predictions on original data")

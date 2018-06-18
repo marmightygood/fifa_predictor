@@ -15,7 +15,7 @@ from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, KFold, cross_val_score,
                                      train_test_split)
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 
 import datetime
@@ -28,7 +28,7 @@ if __name__ == "__main__":
      root_dir = os.path.dirname(os.path.realpath(__file__))
 
      #prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
-     prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv"))
+     prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
 
 def training(training_data):
     #get home path
@@ -96,9 +96,9 @@ def training(training_data):
     numpy.savetxt(os.path.join(root_dir,"output","y_prescaled.csv"), y, delimiter=",")    
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
-    sc_X = MinMaxScaler()
+    sc_X = StandardScaler()
     x = sc_X.fit_transform(x)
-    sc_Y = MinMaxScaler()
+    sc_Y = StandardScaler()
     y = sc_Y.fit_transform(y)
 
     joblib.dump(sc_Y,os.path.join(root_dir,"output", "y_scaler.please"))
