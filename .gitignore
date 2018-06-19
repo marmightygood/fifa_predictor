@@ -3,3 +3,5 @@
 *.please
 *.pyc
 *.jpg
+*.DS_Store
+
