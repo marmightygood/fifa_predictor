@@ -113,6 +113,11 @@ def schedule (schedule_data):
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
+    #create output dir
+    output = os.path.join(root_dir,"output")
+    if not os.path.exists(output):
+        os.makedirs(output)
+
     #load data
     schedule = pd.read_csv(os.path.join(root_dir, "data",schedule_data),parse_dates=['Date'], infer_datetime_format=True) 
     schedule.columns=['round','date','city','home_team','away_team','group','result']

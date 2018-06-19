@@ -42,7 +42,7 @@ def create_model(init='glorot_uniform', hidden_layer_count = 2, feature_count = 
     neurons = input_neurons + 2
     while hidden_layers_added < hidden_layer_count:
         model.add(Dense(neurons, kernel_initializer=init))#, activation='relu'))
-        model.add(Dropout(0.1, noise_shape=None, seed=None))      
+        model.add(Dropout(0.01, noise_shape=None, seed=None))      
         hidden_layers_added += 1
         neurons += 2
 
