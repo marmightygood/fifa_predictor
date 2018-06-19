@@ -4,20 +4,14 @@ import os.path
 from datetime import datetime as dt
 from os.path import expanduser
 
+import matplotlib.pyplot as plt
 import numpy
 import pandas as pd
 from geopy.distance import geodesic
-from keras.layers import Dense
+from keras.layers import (Activation, Dense, Dropout, Flatten, SimpleRNN,
+                          SimpleRNNCell)
 from keras.models import Sequential
-from keras.layers import Dropout
-from keras.layers import SimpleRNN
-from keras.layers import SimpleRNNCell
-from keras.layers import Activation
-from keras.layers import Flatten
 from keras.optimizers import SGD
-
-import matplotlib.pyplot as plt
-
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, KFold, cross_val_score,
@@ -55,12 +49,15 @@ def create_model(init='glorot_uniform', hidden_layer_count = 2, feature_count = 
     #output layer
     model.add(Dense(output_count, kernel_initializer=init, activation='sigmoid'))
     # Compile model
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    model.compile(loss='mse', optimizer=optimizer, metrics=['accuracy'])
     return model
 
 if __name__ == "__main__":
 
     print ("Building model!")
+
+    import time
+    timestr = time.strftime("%Y%m%d_%H%M%S")
 
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
@@ -71,7 +68,7 @@ if __name__ == "__main__":
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=10, batch_size=10, verbose=1, hidden_layer_count=2, feature_count=len(x[0]), output_count= len(y[0]))
+    estimator = KerasRegressor(build_fn=create_model, epochs=250, batch_size=10, verbose=1, hidden_layer_count=2, feature_count=len(x[0]), output_count= len(y[0]))
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)
@@ -89,13 +86,13 @@ if __name__ == "__main__":
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
-    print ("plt.Show()")    
-    plt.savefig(os.path.join(root_dir,"output","accuracy.jpg"))
+    print (os.path.join(root_dir,"output","accuracy_" + timestr + ".jpg"))    
+    plt.savefig(os.path.join(root_dir,"output","accuracy_" + timestr + ".jpg"))
     # summarize history for loss
     plt.plot(history.history['loss'])
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
-    print ("plt.Show()")
-    plt.savefig(os.path.join(root_dir,"output","loss.jpg"))
+    print (root_dir,"output","loss_" + timestr + ".jpg")
+    plt.savefig(os.path.join(root_dir,"output","loss_" + timestr + ".jpg"))
