@@ -28,7 +28,7 @@ if __name__ == "__main__":
      root_dir = os.path.dirname(os.path.realpath(__file__))
 
      #prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
-     prepare_data.training(os.path.join(root_dir, "data", "results.csv"))
+     prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv"))
 
 def training(training_data):
     #get home path
@@ -99,7 +99,7 @@ def training(training_data):
     sc_X = StandardScaler()
     x = sc_X.fit_transform(x)
     sc_Y = StandardScaler()
-    y = sc_Y.fit_transform(y)
+    # y = sc_Y.fit_transform(y)
 
     joblib.dump(sc_Y,os.path.join(root_dir,"output", "y_scaler.please"))
     joblib.dump(sc_X,os.path.join(root_dir,"output", "x_scaler.please"))

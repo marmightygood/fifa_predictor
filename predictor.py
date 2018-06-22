@@ -92,7 +92,8 @@ def predict_single_outcome (date, home_team, away_team, city, country):
 
     prediction = prediction.reshape(1,-1)
     print ("{0} vs {1}".format(home_team,away_team))
-    print(scaler.inverse_transform(prediction))
+    print(prediction)
+    #print(scaler.inverse_transform(prediction))
 
 def predict_list(x):
 
@@ -105,7 +106,8 @@ def predict_list(x):
     print (x)
     prediction = estimator.predict(x)
     scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please"))          
-    return scaler.inverse_transform(prediction)
+    return prediction
+    # return scaler.inverse_transform(prediction)
 
 if __name__ == "__main__":
 

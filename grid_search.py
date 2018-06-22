@@ -15,7 +15,7 @@ import os.path
 from keras.wrappers.scikit_learn import KerasRegressor
 from geopy.distance import geodesic
 
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.externals import joblib
 import numpy
 import predictor
@@ -34,12 +34,12 @@ if __name__ == "__main__":
     model = KerasRegressor(build_fn=model_builder.create_model, verbose=1, feature_count=len(x[0]), output_count= len(y[0]))
 
     # grid search epochs, batch size and optimizer
-    optimizers = ['rmsprop']#, 'adam']
-    init = ['glorot_uniform']#, 'normal', 'uniform']
-    epochs = [1000,5000, 10000]
-    batches = [50]
-    hidden_layer_counts = [1, 2, 3]
-    param_grid = dict(optimizer=optimizers, epochs=epochs, batch_size=batches,hidden_layer_count=hidden_layer_counts, init=init)
+    init = ['normal']
+    epochs = [10]
+    batches = [20]
+    marginal_input_neurons = [4,8]
+    hidden_layer_counts = [10]
+    param_grid = dict(epochs=epochs, batch_size=batches,hidden_layer_count=hidden_layer_counts, init=init, marginal_input_neurons = marginal_input_neurons)
     grid = GridSearchCV(estimator=model, param_grid=param_grid)
     grid_result = grid.fit(x, y)
     

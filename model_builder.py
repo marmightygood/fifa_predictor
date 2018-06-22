@@ -24,7 +24,7 @@ import prepare_data
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(init='glorot_uniform', hidden_layer_count = 2, feature_count = 6, output_count= 2):
+def create_model(init='normal', hidden_layer_count = 2, feature_count = 6, output_count= 2, marginal_input_neurons = 6, loss="mean_squared_error", optimizer="rmsprop"):
     # create model
     model = Sequential()
 
@@ -32,24 +32,24 @@ def create_model(init='glorot_uniform', hidden_layer_count = 2, feature_count = 
     optimizer = SGD(lr=0.01)
 
     #input neurons = number of features plus 2
-    input_neurons = feature_count + 2
+    input_neurons = feature_count + marginal_input_neurons
 
     #input layer
-    model.add(Dense(input_neurons, input_dim=feature_count, kernel_initializer=init, activation='relu'))
+    model.add(Dense(input_neurons, input_dim=feature_count, kernel_initializer=init, activation='linear'))
 
     #add hidden layers
     hidden_layers_added = 0
-    neurons = input_neurons + 2
+    neurons = input_neurons + marginal_input_neurons
     while hidden_layers_added < hidden_layer_count:
-        model.add(Dense(neurons, kernel_initializer=init))#, activation='relu'))
+        model.add(Dense(neurons, kernel_initializer=init, activation='relu'))
         model.add(Dropout(0.01, noise_shape=None, seed=None))      
         hidden_layers_added += 1
-        neurons += 2
+        neurons += marginal_input_neurons
 
     #output layer
-    model.add(Dense(output_count, kernel_initializer=init, activation='sigmoid'))
+    model.add(Dense(output_count, kernel_initializer=init, activation='linear'))
     # Compile model
-    model.compile(loss='mse', optimizer=optimizer, metrics=['accuracy'])
+    model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
     return model
 
 if __name__ == "__main__":
@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=250, batch_size=10, verbose=1, hidden_layer_count=2, feature_count=len(x[0]), output_count= len(y[0]))
+    estimator = KerasRegressor(build_fn=create_model, epochs=1000, batch_size=100, verbose=1, hidden_layer_count=10, feature_count=len(x[0]), output_count= len(y[0]))
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)
