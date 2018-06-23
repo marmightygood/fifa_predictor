@@ -22,13 +22,17 @@ import datetime
 
 import predictor
 import prepare_data
+import configparser
 
 if __name__ == "__main__":
 
-     root_dir = os.path.dirname(os.path.realpath(__file__))
-
+    root_dir = os.path.dirname(os.path.realpath(__file__))
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read(os.path.join(root_dir,'config.ini')) 
+    print (config)
      #prepared_schedule = prepare_data.schedule(os.path.join(root_dir, "data", "fifa-world-cup-2018-RussianStandardTime.csv"))
-     prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv"))
+    prepare_data.training(os.path.join(root_dir, "data", config["training"]["training_data"]))
 
 def training(training_data):
     #get home path
@@ -36,7 +40,6 @@ def training(training_data):
 
     #load data
     results = pd.read_csv(training_data,parse_dates=['date'], infer_datetime_format=True)
-
 
     #cities from csv file
     cities = pd.read_csv(os.path.join(root_dir,"data","cities.csv"))
@@ -99,7 +102,7 @@ def training(training_data):
     sc_X = StandardScaler()
     x = sc_X.fit_transform(x)
     sc_Y = StandardScaler()
-    # y = sc_Y.fit_transform(y)
+    y = sc_Y.fit_transform(y)
 
     joblib.dump(sc_Y,os.path.join(root_dir,"output", "y_scaler.please"))
     joblib.dump(sc_X,os.path.join(root_dir,"output", "x_scaler.please"))

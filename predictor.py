@@ -14,6 +14,7 @@ from sklearn.externals import joblib
 from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.preprocessing import StandardScaler
 import prepare_data
+import configparser
 
 
 def build_by_loading():
@@ -23,7 +24,7 @@ def build_by_loading():
     return model 
 
 
-def predict_single_outcome (date, home_team, away_team, city, country):
+def predict_single_outcome (date, home_team, away_team, city, country, epochs, batch_size):
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -33,7 +34,7 @@ def predict_single_outcome (date, home_team, away_team, city, country):
     tournament = ["FIFA World Cup"]
     tournament = en.transform(tournament)[0]
 
-    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5000, batch_size=50, verbose=1)
+    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=epochs, batch_size=batch_size, verbose=1)
     estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
     #cities from csv file
@@ -42,7 +43,6 @@ def predict_single_outcome (date, home_team, away_team, city, country):
 
     #countries from csv
     countries =  pd.read_csv(os.path.join(root_dir,"data","countries.csv"))
-    coutries = countries.set_index (['country'])
 
     scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please")) 
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 
@@ -92,26 +92,31 @@ def predict_single_outcome (date, home_team, away_team, city, country):
 
     prediction = prediction.reshape(1,-1)
     print ("{0} vs {1}".format(home_team,away_team))
-    print(prediction)
-    #print(scaler.inverse_transform(prediction))
+    #print(prediction)
+    print(scaler.inverse_transform(prediction))
 
 def predict_list(x):
 
     root_dir = os.path.dirname(os.path.realpath(__file__))
-
-    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=5000, batch_size=50, verbose=1)
+    epochs = int(config["hyperparameters"]["epochs"])
+    batch_size = int(config["hyperparameters"]["batch_size"])
+    estimator = KerasRegressor(build_fn=build_by_loading, nb_epoch=epochs, batch_size=batch_size, verbose=1)
     estimator.model = load_model(os.path.join(root_dir,"output", "model.please"))
 
     print ("Fed to estimator")
     print (x)
     prediction = estimator.predict(x)
     scaler = joblib.load(os.path.join(root_dir,"output", "y_scaler.please"))          
-    return prediction
-    # return scaler.inverse_transform(prediction)
+    #return prediction
+    return scaler.inverse_transform(prediction)
 
 if __name__ == "__main__":
 
     root_dir = os.path.dirname(os.path.realpath(__file__))
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read(os.path.join(root_dir,'config.ini')) 
+
 
     import time
     timestr = time.strftime("%Y%m%d_%H%M%S")
@@ -140,5 +145,5 @@ if __name__ == "__main__":
     #predictions.to_csv(os.path.join(root_dir,"output", 'predictions_results.csv'))
 
     print("Predicting singletons")
-    predict_single_outcome('2018-06-16', 'France', 'Australia', 'Moscow', 'Russia')
+    predict_single_outcome('2018-06-16', 'France', 'Australia', 'Moscow', 'Russia', config["hyperparameters"]["epochs"], config["hyperparameters"]["batch_size"])
 #4,1,16/06/2018 13:00,Kazan Arena,France,Australia,Group C,,1.6349037,5.3673425

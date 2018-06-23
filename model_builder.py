@@ -20,11 +20,12 @@ from sklearn.preprocessing import StandardScaler
 
 import predictor
 import prepare_data
+import configparser
 
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(init='normal', hidden_layer_count = 2, feature_count = 6, output_count= 2, marginal_input_neurons = 6, loss="mean_squared_error", optimizer="rmsprop"):
+def create_model(init='glorot_uniform', hidden_layer_count = 2, feature_count = 6, output_count= 2, marginal_input_neurons = 2, loss="mean_squared_error"):
     # create model
     model = Sequential()
 
@@ -35,32 +36,36 @@ def create_model(init='normal', hidden_layer_count = 2, feature_count = 6, outpu
     input_neurons = feature_count + marginal_input_neurons
 
     #input layer
-    model.add(Dense(input_neurons, input_dim=feature_count, kernel_initializer=init, activation='linear'))
+    model.add(Dense(input_neurons, input_dim=feature_count, kernel_initializer=init, activation='relu'))
 
     #add hidden layers
     hidden_layers_added = 0
     neurons = input_neurons + marginal_input_neurons
     while hidden_layers_added < hidden_layer_count:
-        model.add(Dense(neurons, kernel_initializer=init, activation='relu'))
-        model.add(Dropout(0.01, noise_shape=None, seed=None))      
+        model.add(Dense(neurons, kernel_initializer=init, activation='relu'))  
         hidden_layers_added += 1
         neurons += marginal_input_neurons
 
     #output layer
-    model.add(Dense(output_count, kernel_initializer=init, activation='linear'))
+    model.add(Dense(output_count, kernel_initializer=init, activation="sigmoid"))
     # Compile model
-    model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
+    model.compile(loss=loss, optimizer = optimizer, metrics=["accuracy"])
     return model
 
 if __name__ == "__main__":
 
     print ("Building model!")
 
+ 
+
     import time
     timestr = time.strftime("%Y%m%d_%H%M%S")
 
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read(os.path.join(root_dir,'config.ini'))    
 
     # x, y, sc_X, sc_Y = prepare_data.training(os.path.join(root_dir, "data", "fullresults.csv")
     x = numpy.loadtxt(os.path.join(root_dir,"output","x_scaled.csv"),  delimiter=",")
@@ -68,7 +73,7 @@ if __name__ == "__main__":
 
     # Run model
     print ("Running regressor")
-    estimator = KerasRegressor(build_fn=create_model, epochs=1000, batch_size=100, verbose=1, hidden_layer_count=10, feature_count=len(x[0]), output_count= len(y[0]))
+    estimator = KerasRegressor(build_fn=create_model, epochs=int(config["hyperparameters"]["epochs"]), batch_size=int(config["hyperparameters"]["batch_size"]), verbose=1, hidden_layer_count=int(config["hyperparameters"]["hidden_layer_count"]), feature_count=len(x[0]), output_count= len(y[0]))
     kfold = KFold(n_splits=10)
     print ("Scoring results")
     results = cross_val_score(estimator, x, y, cv=kfold)
