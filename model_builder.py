@@ -25,7 +25,7 @@ import configparser
 
 #build a model
 # Function to create model, required for KerasClassifier
-def create_model(init='glorot_uniform', hidden_layer_count = 2, feature_count = 6, output_count= 2, marginal_input_neurons = 2, loss="mean_squared_error"):
+def create_model(init='zeros', hidden_layer_count = 2, feature_count = 6, output_count= 2, marginal_input_neurons = 2, loss="mean_squared_error"):
     # create model
     model = Sequential()
 

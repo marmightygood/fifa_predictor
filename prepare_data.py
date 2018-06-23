@@ -1,5 +1,6 @@
 
 ##Updated to work better on windows
+#for comparison
 
 import datetime as do
 import os.path
