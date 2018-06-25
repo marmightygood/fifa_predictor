@@ -38,6 +38,9 @@ if __name__ == "__main__":
 def training(training_data):
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read(os.path.join(root_dir,'config.ini'))   
 
     #load data
     results = pd.read_csv(training_data,parse_dates=['date'], infer_datetime_format=True)
@@ -66,7 +69,14 @@ def training(training_data):
 
     en = LabelEncoder()
     results['tournament'] = en.fit_transform(results['tournament'])
-    joblib.dump(en,os.path.join(root_dir,"output", "label_encoder.please"))
+    home = LabelEncoder()    
+    results['home_num'] = home.fit_transform(results['home_team'])
+    away=LabelEncoder()
+    results['away_num'] = away.fit_transform(results['away_team'])  
+
+    joblib.dump(en,os.path.join(root_dir,"output", "tournament_encoder.please")) 
+    joblib.dump(home,os.path.join(root_dir,"output", "home_encoder.please")) 
+    joblib.dump(away,os.path.join(root_dir,"output", "away_encoder.please"))   
 
     #fill in nas
     results['lat'] = results['lat'].fillna(results['lat'].min())
@@ -84,17 +94,21 @@ def training(training_data):
     results.to_csv(os.path.join(root_dir,"output","lats_longs.csv"))
 
     #cut data for modelling
-    results = results[['date_int','tournament','geodesic', 'geodesic_home','pop_home', 'pop_away','home_score','away_score']]
+    results = results[['date_int','home_num','away_num','tournament','geodesic', 'geodesic_home','pop_home', 'pop_away','home_score','away_score']]
 
     #shuffle
     results = results.sample(frac=1)
+#    results = numpy.random.shuffle(results)
 
     #review
     results.to_csv(os.path.join(root_dir,"output","prepared.csv"))
 
     #get numpy arrays
-    x = results.values [:,0:6]
-    y = results.values [:,6: 8]
+    features=int(config["training"]["features"])
+    outputs=int(config["training"]["outputs"])
+
+    x = results.values [:,0:features]
+    y = results.values [:,features: features+outputs]
 
     numpy.savetxt(os.path.join(root_dir,"output","x_prescaled.csv"), x, delimiter=",")
     numpy.savetxt(os.path.join(root_dir,"output","y_prescaled.csv"), y, delimiter=",")    
@@ -116,6 +130,10 @@ def training(training_data):
 def schedule (schedule_data):
     #get home path
     root_dir = os.path.dirname(os.path.realpath(__file__))
+    root_dir = os.path.dirname(os.path.realpath(__file__))
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read(os.path.join(root_dir,'config.ini'))   
 
     #create output dir
     output = os.path.join(root_dir,"output")
@@ -171,15 +189,21 @@ def schedule (schedule_data):
     schedule['tournament'] = tournament
     schedule['tournament'] = en.transform(schedule['tournament'])
 
+
+    home = joblib.load(os.path.join(root_dir,"output", "home_encoder.please")) 
+    schedule['home_num'] = home.transform(schedule['home_team']) 
+    away = joblib.load(os.path.join(root_dir,"output", "away_encoder.please"))  
+    schedule['away_num'] = away.transform(schedule['away_team']) 
+
     #cut data for modelling
-    schedule = schedule[['date_int','tournament','geodesic','geodesic_home', 'pop_home', 'pop_away','result']]
+    schedule = schedule[['date_int','home_num','away_num','tournament','geodesic', 'geodesic_home','pop_home', 'pop_away']]
 
     #review
     schedule.to_csv(os.path.join(root_dir,"output","schedule_prepared.csv"))
 
     #get numpy arrays
-    x = schedule.values [:,0:6]
-
+    features=int(config["training"]["features"])
+    x = schedule.values [:,0:features]
 
     #scale https://stackoverflow.com/questions/48458635/getting-very-bad-prediction-with-kerasregressor
     sc_X = joblib.load(os.path.join(root_dir,"output", "x_scaler.please")) 

@@ -144,6 +144,4 @@ if __name__ == "__main__":
     #predictions = pd.concat((fullresults,predictions), axis=1)
     #predictions.to_csv(os.path.join(root_dir,"output", 'predictions_results.csv'))
 
-    print("Predicting singletons")
-    predict_single_outcome('2018-06-16', 'France', 'Australia', 'Moscow', 'Russia', config["hyperparameters"]["epochs"], config["hyperparameters"]["batch_size"])
-#4,1,16/06/2018 13:00,Kazan Arena,France,Australia,Group C,,1.6349037,5.3673425
+

@@ -16,7 +16,6 @@ from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.externals import joblib
 from sklearn.model_selection import (GridSearchCV, KFold, cross_val_score,
                                      train_test_split)
-from sklearn.preprocessing import StandardScaler
 
 import predictor
 import prepare_data
